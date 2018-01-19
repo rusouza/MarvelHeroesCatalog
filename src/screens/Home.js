@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, FlatList, Text, Image, ActivityIndicator } from 'react-native';
-import { List } from 'native-base'; 
+import { TouchableOpacity, View, FlatList, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { List, Container, Header, Item, Input, Icon, Button } from 'native-base'; 
 import { SearchBar } from 'react-native-elements';
 import md5 from 'js-md5';
 
 const PUBLIC_KEY = 'c66526e4b5c77ea063bc26fbe471d65e';
 const PRIVATE_KEY = 'f1b9799633a26769435f44a16723ea7a9a4cfedb';
+
+const styles = StyleSheet.create({
+  header: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: "2%",
+    backgroundColor: '#e1e8ee',
+  },
+});
 
 export default class Home extends Component {
 
@@ -20,12 +30,20 @@ export default class Home extends Component {
 
   static navigationOptions = {
     title: 'Heróis',
+  //   header: <View style={styles.header}>
+  //   <SearchBar lightTheme/>
+  // </View> ,
     headerStyle:{
       backgroundColor:'red'
     },
+     headerRight: (
+      <Button transparent>
+        <Icon name='ios-search' transparent />
+      </Button>
+    )
   }
 
-   state = {
+  state = {
     data: []
   }
 
@@ -47,16 +65,12 @@ export default class Home extends Component {
         this.setState({ data: response.data.results });
         this.loading = false;
         this.refreshing = false;
-        // this.setState({data: limit === 10 ? response.data.results : 
-        //   [...this.state.data, ...response.data.results],
-        //   error: response.error || null, loading: false, refreshing: false});
       }).catch(error => {
         this.loading = false;
         this.refreshing = false;
       })
     }, 1500);
     this.refreshing = false;
-    console.log("this.refreshing = " + this.refreshing);
   }
 
   _renderItem = ({item}) => {
@@ -70,7 +84,6 @@ export default class Home extends Component {
 
   handleLoadMore = () => {
     if(!this.loading){
-      //let nextPage = this.offset + 10;
       let quantPerPag = this.limit + 10;
       this.offset = 0;
       this.limit = quantPerPag;
@@ -96,9 +109,21 @@ export default class Home extends Component {
     )
   }
 
-  renderHeader = () => {
-    return <SearchBar noIcon placeholder='Search Here...' lightTheme round />
-  };
+  // renderHeader = () => {
+  //   //return <SearchBar noIcon placeholder='Search Here...' lightTheme round />
+  //   return (
+  //       <Header searchBar rounded>
+  //         <Item>
+  //           <Icon ios="ios-search" name="ios-search" android="md-search" />
+  //           <Input placeholder="Search Here" />
+  //           <Icon ios="ios-people" name="ios-people" android="md-people" />
+  //         </Item>
+  //         <Button transparent>
+  //           <Text>Search</Text>
+  //         </Button>
+  //       </Header>
+  //   )
+  // }
 
   _onItemPress = (item) => {
     this.props.navigation.navigate('Descricao', { hero: item })
@@ -111,7 +136,7 @@ export default class Home extends Component {
           renderItem  = {this._renderItem}
           keyExtractor = {(item) => item.id}
           ItemSeparatorComponent = {() => <View style={{ height: 1, backgroundColor: '#f7f7f7' }} />}
-          ListHeaderComponent = { this.renderHeader }
+          //ListHeaderComponent = { this.renderHeader }
           ListFooterComponent = { this.renderFooter }
           onRefresh = { this.handleRefresh }
           refreshing = { this.refreshing }
