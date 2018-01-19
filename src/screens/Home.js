@@ -11,7 +11,11 @@ export default class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.onEndReachedCalledDuringMomentum = true;
+    this.limit = 10;
+    this.offset = 0;
+    this.error = null;
+    this.refreshing = false;
+    this.loading = false;
   }
 
   static navigationOptions = {
@@ -21,13 +25,8 @@ export default class Home extends Component {
     },
   }
 
-  state = {
-    loading: false,
-    refreshing: false,
-    data: [],
-    limit: 10,
-    offset: 0,
-    error: null
+   state = {
+    data: []
   }
 
   componentDidMount() {
@@ -35,25 +34,29 @@ export default class Home extends Component {
   }
 
   callApi = () => {
-    console.log("callApi");
     const timestamp = new Date().getTime();
-    const { limit, offset } = this.state;
     const hash = md5.create();
 
     hash.update(timestamp + PRIVATE_KEY + PUBLIC_KEY);
-    const url = 'https://gateway.marvel.com/v1/public/characters?ts=' + timestamp + '&orderBy=name&limit=' + limit + '&offset=' + offset + '&apikey=' + PUBLIC_KEY + '&hash=' + hash;
+    const url = 'https://gateway.marvel.com/v1/public/characters?ts=' + timestamp + '&orderBy=name&limit=' + this.limit + '&offset=' + this.offset + '&apikey=' + PUBLIC_KEY + '&hash=' + hash;
     
-    this.setState({ loading: true });
-    console.log("this.state.loading = " + this.state.loading);
+    this.loading = true;
+
     setTimeout(() => {
       return fetch(url).then(response => response.json()).then(response => {
-        this.setState({data: limit === 10 ? response.data.results : 
-          [...this.state.data, ...response.data.results],
-          error: response.error || null, loading: false, refreshing: false});
+        this.setState({ data: response.data.results });
+        this.loading = false;
+        this.refreshing = false;
+        // this.setState({data: limit === 10 ? response.data.results : 
+        //   [...this.state.data, ...response.data.results],
+        //   error: response.error || null, loading: false, refreshing: false});
       }).catch(error => {
-        this.setState({ error, loading: false });
+        this.loading = false;
+        this.refreshing = false;
       })
     }, 1500);
+    this.refreshing = false;
+    console.log("this.refreshing = " + this.refreshing);
   }
 
   _renderItem = ({item}) => {
@@ -66,37 +69,24 @@ export default class Home extends Component {
   }
 
   handleLoadMore = () => {
-    let nextPage = this.state.offset + 10;
-    let quantPerPag = this.state.limit + 10;
-    this.setState({
-      offset: nextPage,
-      limit: quantPerPag
-      },
-      () => {
-        this.callApi();
-      }
-    );
+    if(!this.loading){
+      //let nextPage = this.offset + 10;
+      let quantPerPag = this.limit + 10;
+      this.offset = 0;
+      this.limit = quantPerPag;
+      this.callApi();
+    }
   }
 
   handleRefresh = () => {
-    let _limit = 10;
-    let _offset = 0;
-    let _refreshing = true;
-    this.setState(
-      {
-        limit: _limit,
-        offset: _offset,
-        refreshing: _refreshing
-      },
-      () => {
-        this.callApi();
-      }
-    );
-    console.log("this.state = " + this.state);
-  };
+    this.refreshing = true;
+    this.offset = 0;
+    this.limit = 10;
+    this.callApi();
+  }
 
   renderFooter = () => {
-    if(!this.state.loading) {
+    if(!this.loading) {
       return null;
     }
     return(
@@ -124,7 +114,7 @@ export default class Home extends Component {
           ListHeaderComponent = { this.renderHeader }
           ListFooterComponent = { this.renderFooter }
           onRefresh = { this.handleRefresh }
-          refreshing = { this.state.refreshing }
+          refreshing = { this.refreshing }
           onEndReached = { this.handleLoadMore }
           onEndReachedThreshold = {0.1}
         />
