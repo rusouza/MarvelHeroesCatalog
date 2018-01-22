@@ -34,7 +34,7 @@ export default class Home extends Component {
   //   <SearchBar lightTheme/>
   // </View> ,
     headerStyle:{
-      backgroundColor:'red'
+      backgroundColor:'#666666'
     },
      headerRight: (
       <Button transparent>

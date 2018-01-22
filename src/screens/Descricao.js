@@ -8,7 +8,7 @@ export default class Descricao extends Component {
     static navigationOptions = {
         title: 'Descrição',
         headerStyle:{
-          backgroundColor:'red'
+          backgroundColor:'#666666'
         },
     }
 
