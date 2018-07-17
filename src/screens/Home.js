@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, View, FlatList, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
-import { List, Container, Header, Item, Input, Icon, Button } from 'native-base'; 
+import { TouchableOpacity, View, FlatList, TouchableHighlight, Text, Image, ActivityIndicator, StyleSheet } from 'react-native';
+import { List, Container, Header, Item, Input, Icon, Button, Body, Title, Right, Left } from 'native-base'; 
 import { SearchBar } from 'react-native-elements';
 import md5 from 'js-md5';
 
@@ -26,21 +26,14 @@ export default class Home extends Component {
     this.error = null;
     this.refreshing = false;
     this.loading = false;
+    this.status = true;
   }
 
   static navigationOptions = {
-    title: 'Heróis',
-  //   header: <View style={styles.header}>
-  //   <SearchBar lightTheme/>
-  // </View> ,
+    header: <SearchBar lightTheme placeholder='Search Here...' onChangeText={(text) => this.onPressSearchBtn({text})}/>,
     headerStyle:{
       backgroundColor:'#666666'
-    },
-     headerRight: (
-      <Button transparent>
-        <Icon name='ios-search' transparent />
-      </Button>
-    )
+    }
   }
 
   state = {
@@ -109,21 +102,9 @@ export default class Home extends Component {
     )
   }
 
-  // renderHeader = () => {
-  //   //return <SearchBar noIcon placeholder='Search Here...' lightTheme round />
-  //   return (
-  //       <Header searchBar rounded>
-  //         <Item>
-  //           <Icon ios="ios-search" name="ios-search" android="md-search" />
-  //           <Input placeholder="Search Here" />
-  //           <Icon ios="ios-people" name="ios-people" android="md-people" />
-  //         </Item>
-  //         <Button transparent>
-  //           <Text>Search</Text>
-  //         </Button>
-  //       </Header>
-  //   )
-  // }
+  onPressSearchBtn = (teste) => {
+    console.log("Teste");
+  }
 
   _onItemPress = (item) => {
     this.props.navigation.navigate('Descricao', { hero: item })
@@ -136,7 +117,6 @@ export default class Home extends Component {
           renderItem  = {this._renderItem}
           keyExtractor = {(item) => item.id}
           ItemSeparatorComponent = {() => <View style={{ height: 1, backgroundColor: '#f7f7f7' }} />}
-          //ListHeaderComponent = { this.renderHeader }
           ListFooterComponent = { this.renderFooter }
           onRefresh = { this.handleRefresh }
           refreshing = { this.refreshing }
