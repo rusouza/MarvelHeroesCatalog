@@ -5,7 +5,7 @@
 </p>
 
 <p>
-  Para fazer este app foi utilizados os seguintes links.
+  Para fazer este app foi utilizados os seguintes links:
 </p>
 
 [React Native: Consumindo a API da Marvel](https://medium.com/@ecavalcanti/react-native-consumindo-a-api-da-marvel-c444e0bc1c8a)
