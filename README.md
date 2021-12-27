@@ -4,6 +4,11 @@
   Este é um aplicativo feito em React Native que utiliza a API da Marvel.
 </p>
 
+#### Tecnologias utilizadas
+<ul>
+  <li>React Native</li>
+</ul>
+
 <p>
   Para fazer este app foi utilizados os seguintes links:
 </p>
