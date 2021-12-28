@@ -1,7 +1,8 @@
-## Marvel Heroes Catalog
+# Marvel Heroes Catalog
 
+### Sobre
 <p>
-  Este é um aplicativo feito em React Native que utiliza a API da Marvel.
+  Este é um aplicativo feito em React Native que utiliza a API da Marvel para trazer uma lista de personagens e apresentar a descrição de cada um deles.
 </p>
 
 #### Tecnologias utilizadas
@@ -9,6 +10,7 @@
   <li>React Native</li>
 </ul>
 
+### Links
 <p>
   Para fazer este app foi utilizados os seguintes links:
 </p>
