@@ -6,7 +6,7 @@
     "babel-preset-react-native-stage-0": "^1.0.1",
     "jest-expo": "^44.0.1",
     "react-devtools": "^4.22.1",
-    "react-test-renderer": "16.0.0"
+    "react-test-renderer": "17.0.2"
   },
   "scripts": {
     "start": "react-native start",
@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "js-md5": "^0.7.3",
-    "native-base": "^2.3.7",
-    "react": "16.0.0",
-    "react-native": "0.50.3",
+    "native-base": "^3.2.2",
+    "react": "17.0.2",
+    "react-native": "0.66.4",
     "react-native-elements": "^3.4.2",
-    "react-navigation": "^1.0.0-beta.27"
+    "react-navigation": "^4.4.4"
   },
   "description": "<p>\r   Este é um aplicativo feito em React Native que utiliza a API da Marvel.\r </p>",
   "main": "index.js",
